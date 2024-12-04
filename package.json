@@ -9,7 +9,8 @@
     "astro": "astro",
     "lint": "biome check --write ./",
     "typecheck": "tsc",
-    "format": "biome format --write ./"
+    "format": "biome format --write ./",
+    "postinstall": "pnpm exec simple-git-hooks"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.1",
@@ -19,6 +20,15 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "nano-staged": "0.8.0",
+    "simple-git-hooks": "2.11.1",
     "typescript": "5.7.2"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "./node_modules/.bin/nano-staged",
+    "pre-push": "pnpm typecheck"
+  },
+  "nano-staged": {
+    "*.{js,cjs,mjs,jsx,ts,mts,tsx,astro}": ["biome check --write"]
   }
 }
