@@ -1,0 +1,12 @@
+# Ignore any non .astro files
+**/node_modules
+.astro/**
+# some why {ts,tsx,...} pattern doesn't work
+**/*.ts
+**/*.tsx
+**/*.js
+**/*.mjs
+**/*.cjs
+**/*.mts
+**/*.jsx
+**/*.json

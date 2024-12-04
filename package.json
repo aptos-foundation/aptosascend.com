@@ -7,9 +7,13 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "biome check --write ./",
     "typecheck": "tsc",
-    "format": "biome format --write ./",
+    "lint": "pnpm run --parallel --filter='.' /^lint:*/",
+    "lint:biome": "biome check --write ./",
+    "lint:prettier": "prettier --check .",
+    "format": "pnpm run --parallel --filter='.' /^format:*/",
+    "format:biome": "biome format --write ./",
+    "format:prettier": "prettier . --write",
     "postinstall": "pnpm exec simple-git-hooks"
   },
   "dependencies": {
@@ -18,8 +22,13 @@
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.3",
     "@astrojs/vercel": "^8.0.0",
+    "@datocms/astro": "^0.3.5",
+    "@datocms/cma-client": "^3.3.15",
     "@tailwindcss/typography": "^0.5.15",
     "astro": "^5.0.2",
+    "prettier": "^3.4.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "serialize-error": "^11.0.3",
     "tailwindcss": "3.4.16"
   },
   "devDependencies": {
@@ -33,8 +42,7 @@
     "pre-push": "pnpm typecheck"
   },
   "nano-staged": {
-    "*.{js,cjs,mjs,jsx,ts,mts,tsx,astro}": [
-      "biome check --write"
-    ]
+    "*.{js,cjs,mjs,jsx,ts,mts,tsx}": ["biome check --write"],
+    "*.{css,astro,html,md,mdx}": ["prettier --write"]
   }
 }
