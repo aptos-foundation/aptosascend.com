@@ -1,0 +1,22 @@
+---
+import type { HTMLTag, Polymorphic } from "astro/types";
+import { getTypographySize, getTypographyStyle } from "./utils";
+
+type Props<Tag extends HTMLTag> = Polymorphic<{
+  as: Tag;
+  kind?: string;
+  size?: string;
+  font?: string;
+  class?: string;
+}>;
+
+const { as = "span", kind, size, font, class: className, ...restProps } = Astro.props;
+const Component = as;
+---
+
+<Component
+  class:list={[getTypographySize(size, as), getTypographyStyle(kind, font), className]}
+  {...restProps}
+>
+  <slot />
+</Component>
