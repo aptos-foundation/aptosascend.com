@@ -1,0 +1,24 @@
+---
+import type { HTMLTag, Polymorphic } from "astro/types";
+import { Typography } from "~/components/Typography";
+import type { TypographyFont, TypographyKind, TypographySize } from "../Typography/utils";
+
+type Props<Tag extends HTMLTag> = Polymorphic<{
+  as: Tag;
+  kind?: TypographyKind;
+  size?: TypographySize;
+  font?: TypographyFont;
+}>;
+
+const { as = "span", className, kind = "muted", ...restProps } = Astro.props;
+const Component = as;
+---
+
+<Typography
+  class:list={["text-balance font-normal uppercase tracking-[0.15em]", className]}
+  as={Component}
+  kind={kind}
+  {...restProps}
+>
+  <slot />
+</Typography>
