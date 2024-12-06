@@ -1,0 +1,34 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { Title } from "~/components/Title";
+import { Typography } from "~/components/Typography";
+
+interface Props extends HTMLAttributes<"blockquote"> {
+  attribution?: string | undefined;
+}
+
+const { class: className, children, attribution, ...restProps } = Astro.props;
+---
+
+<Typography
+  as="blockquote"
+  size="lg"
+  kind="secondary"
+  class:list={[
+    className,
+    "relative ml-16 block py-[3em] not-italic leading-relaxed",
+    "before:absolute before:-inset-x-24 before:-inset-y-4",
+    "before:-left-32 before:right-full before:top-[0.1em] before:text-center before:font-mono before:text-[8rem] before:tracking-[-0.445em] before:text-canvas-hover before:content-['‘‘']",
+    "md:leading-relaxed",
+  ]}
+  {...restProps}
+>
+  <slot />
+  {
+    attribution && (
+      <Title as="footer" class="block pt-[1em]" size="md">
+        — {attribution}
+      </Title>
+    )
+  }
+</Typography>
