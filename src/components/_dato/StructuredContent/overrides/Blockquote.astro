@@ -1,0 +1,14 @@
+---
+import { type Blockquote } from "datocms-structured-text-utils";
+import { Blockquote as BaseBlockquote } from "~/components/Blockquote";
+
+interface Props {
+  node: Blockquote;
+}
+
+const { node } = Astro.props;
+---
+
+<BaseBlockquote attribution={node.attribution}>
+  <slot />
+</BaseBlockquote>

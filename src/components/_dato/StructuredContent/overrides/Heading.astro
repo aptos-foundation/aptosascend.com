@@ -1,0 +1,29 @@
+---
+import { render as structuredTextToPlainText } from "datocms-structured-text-to-plain-text";
+import type { Heading } from "datocms-structured-text-utils";
+import { Typography } from "~/components/Typography";
+import { slugify } from "~/lib/utils/url/slugify";
+
+interface Props {
+  node: Heading;
+}
+
+const { node } = Astro.props;
+const Element = `h${node.level}` as const;
+const stringified = structuredTextToPlainText(node);
+const slug = stringified && slugify(stringified);
+---
+
+{
+  slug ? (
+    <Typography id={slug} as={Element} kind="heading" tabindex="-1">
+      <a href={`#${slug}`}>
+        <slot />
+      </a>
+    </Typography>
+  ) : (
+    <Typography as={Element} kind="heading">
+      <slot />
+    </Typography>
+  )
+}

@@ -1,0 +1,15 @@
+---
+import { type Link } from "datocms-structured-text-utils";
+import { Link as BaseLink } from "~/components/Link";
+import { metaToProps } from "../utils";
+
+interface Props {
+  node: Link;
+}
+
+const { node } = Astro.props;
+---
+
+<BaseLink href={node.url} {...metaToProps(node.meta)}>
+  <slot />
+</BaseLink>

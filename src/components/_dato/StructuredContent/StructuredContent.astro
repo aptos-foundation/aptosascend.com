@@ -1,0 +1,57 @@
+---
+import { StructuredText as AstroStructuredText } from "@datocms/astro";
+import { readFragment, type FragmentOf } from "~/lib/datocms/graphql";
+
+import { default as Blockquote } from "./overrides/Blockquote.astro";
+import { default as Code } from "./overrides/Code.astro";
+import { default as Heading } from "./overrides/Heading.astro";
+import { default as Link } from "./overrides/Link.astro";
+import { default as Paragraph } from "./overrides/Paragraph.astro";
+
+import { AccordionBlock } from "./blocks/AccordionBlock";
+import { ImageBlock } from "./blocks/ImageBlock";
+import { ImageGalleryBlock } from "./blocks/ImageGalleryBlock";
+import { TableBlock } from "./blocks/TableBlock";
+import { TweetBlock } from "./blocks/TweetBlock";
+import { VideoBlock } from "./blocks/VideoBlock";
+import { PageLink } from "./linkToRecord/PageLink";
+import { BlogPostLink } from "./linkToRecord/BlogPostLink";
+import { PageInline } from "./inlineRecord/PageInline";
+import { BlogPostInline } from "./inlineRecord/BlogPostInline";
+import { StructuredContentFragment } from "./fragments";
+import type { StructuredText } from "datocms-structured-text-utils";
+
+interface Props {
+  content: FragmentOf<typeof StructuredContentFragment>;
+}
+
+const { content } = Astro.props;
+const structuredContent = readFragment(StructuredContentFragment, content);
+---
+
+<AstroStructuredText
+  data={structuredContent.structuredText as unknown as StructuredText}
+  blockComponents={{
+    AccordionBlockRecord: AccordionBlock,
+    ImageBlockRecord: ImageBlock,
+    ImageGalleryBlockRecord: ImageGalleryBlock,
+    TableBlockRecord: TableBlock,
+    TweetBlockRecord: TweetBlock,
+    VideoBlockRecord: VideoBlock,
+  }}
+  linkToRecordComponents={{
+    PageRecord: PageLink,
+    BlogPostRecord: BlogPostLink,
+  }}
+  inlineRecordComponents={{
+    PageRecord: PageInline,
+    BlogPostRecord: BlogPostInline,
+  }}
+  nodeOverrides={{
+    blockquote: Blockquote,
+    code: Code,
+    heading: Heading,
+    link: Link,
+    paragraph: Paragraph,
+  }}
+/>

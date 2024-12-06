@@ -1,0 +1,17 @@
+---
+import { type FragmentOf, readFragment } from "~/lib/datocms/graphql";
+import { ImageBlockFragment } from "./fragments";
+import { ResponsiveImage } from "~/components/_dato/ResponsiveImage";
+
+interface Props {
+  block: FragmentOf<typeof ImageBlockFragment>;
+}
+
+const { block } = Astro.props;
+const imageBlock = readFragment(ImageBlockFragment, block);
+---
+
+<figure>
+  <ResponsiveImage data={imageBlock.asset.responsiveImage} />
+  <figcaption>{imageBlock.asset.title}</figcaption>
+</figure>
