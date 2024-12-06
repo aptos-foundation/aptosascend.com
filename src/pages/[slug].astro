@@ -1,0 +1,42 @@
+---
+import { ResponsiveImageFragment } from "~/components/_dato/ResponsiveImage/fragments";
+import { StructuredContent } from "~/components/_dato/StructuredContent";
+import { StructuredContentFragment } from "~/components/_dato/StructuredContent/fragments";
+import { Typography } from "~/components/Typography";
+import Layout from "~/layouts/Layout.astro";
+import { TagFragment } from "~/lib/datocms/commonFragments";
+import { executeQuery } from "~/lib/datocms/executeQuery";
+import { graphql } from "~/lib/datocms/graphql";
+
+const query = graphql(
+  `
+    query PageQuery($slug: String!) {
+      page(filter: { slug: { eq: $slug } }) {
+        title
+        content {
+          ...StructuredContentFragment
+        }
+        publishedAt: _firstPublishedAt
+        seo: _seoMetaTags {
+          ...TagFragment
+        }
+      }
+    }
+  `,
+  [TagFragment, ResponsiveImageFragment, StructuredContentFragment],
+);
+
+const { page } = await executeQuery(query, { variables: { slug: Astro.params.slug! } });
+
+if (!page) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not found",
+  });
+}
+---
+
+<Layout additionalSeo={page.seo}>
+  <Typography as="h1">{page.title}</Typography>
+  <StructuredContent content={page.content} />
+</Layout>
