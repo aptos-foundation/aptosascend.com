@@ -1,0 +1,14 @@
+---
+import { type FragmentOf, readFragment } from "~/lib/datocms/graphql";
+import { Tweet } from "~/components/Tweet";
+import { TweetBlockFragment } from "./fragments";
+
+interface Props {
+  block: FragmentOf<typeof TweetBlockFragment>;
+}
+
+const { block } = Astro.props;
+const tweetBlock = readFragment(TweetBlockFragment, block);
+---
+
+<Tweet url={tweetBlock.url} />

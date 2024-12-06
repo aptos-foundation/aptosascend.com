@@ -1,0 +1,12 @@
+---
+import { type Paragraph } from "datocms-structured-text-utils";
+import { Typography } from "~/components/Typography";
+
+interface Props {
+  node: Paragraph;
+}
+---
+
+<Typography as="p" size="lg" kind="secondary">
+  <slot />
+</Typography>

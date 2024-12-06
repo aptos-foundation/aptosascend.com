@@ -1,0 +1,17 @@
+---
+import { type FragmentOf, readFragment } from "~/lib/datocms/graphql";
+import { Video } from "~/components/Video";
+import { VideoBlockFragment } from "./fragments";
+
+interface Props {
+  block: FragmentOf<typeof VideoBlockFragment>;
+}
+
+const { block } = Astro.props;
+const videoBlock = readFragment(VideoBlockFragment, block);
+---
+
+<figure>
+  <Video provider={videoBlock.video.provider} videoUid={videoBlock.video.providerUid} />
+  <figcaption>{videoBlock.video.title}</figcaption>
+</figure>

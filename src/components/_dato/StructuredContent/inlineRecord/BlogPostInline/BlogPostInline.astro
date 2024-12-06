@@ -1,0 +1,18 @@
+---
+import type { ItemLink } from "datocms-structured-text-utils";
+import { readFragment, type FragmentOf } from "~/lib/datocms/graphql";
+import type { TransformedMeta } from "datocms-structured-text-generic-html-renderer";
+import { BlogPostInlineFragment } from "./fragments";
+import { Link } from "~/components/Link";
+
+interface Props {
+  node: ItemLink;
+  record: FragmentOf<typeof BlogPostInlineFragment>;
+  attrs: TransformedMeta;
+}
+
+const { record, attrs } = Astro.props;
+const blogPostInline = readFragment(BlogPostInlineFragment, record);
+---
+
+<Link {...attrs} title={blogPostInline.title}><slot /></Link>

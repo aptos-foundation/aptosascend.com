@@ -1,0 +1,41 @@
+---
+import { type FragmentOf, readFragment } from "~/lib/datocms/graphql";
+import { z } from "astro:content";
+import { Table, TableCell, TableHeading, TableRow } from "~/components/Table";
+import { TableBlockFragment } from "./fragments";
+
+interface Props {
+  block: FragmentOf<typeof TableBlockFragment>;
+}
+
+const { block } = Astro.props;
+const tableBlock = readFragment(TableBlockFragment, block);
+const tableSchema = z.object({
+  rows: z.object({
+    columns: z.array(z.string()),
+    data: z.array(z.record(z.string())),
+  }),
+});
+const { rows } = tableSchema.parse(tableBlock);
+---
+
+<div class="w-full overflow-x-auto">
+  <Table>
+    <thead>
+      <TableRow>
+        {rows.columns.map((column) => <TableHeading>{column}</TableHeading>)}
+      </TableRow>
+    </thead>
+    <tbody>
+      {
+        rows.data.map((row) => (
+          <TableRow>
+            {rows.columns.map((column) => (
+              <TableCell>{row[column]}</TableCell>
+            ))}
+          </TableRow>
+        ))
+      }
+    </tbody>
+  </Table>
+</div>

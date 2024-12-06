@@ -1,0 +1,20 @@
+---
+import { type Code } from "datocms-structured-text-utils";
+
+interface Props {
+  node: Code;
+}
+
+const { node } = Astro.props;
+---
+
+<pre
+  data-language={node.language}>
+  <code class:list={[
+    "block w-full p-4",
+    "border border-border bg-elevation-1 text-active",
+    "overflow-x-auto",
+  ]}>
+    {node.code}
+  </code>
+</pre>

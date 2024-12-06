@@ -1,0 +1,23 @@
+---
+import { type FragmentOf, readFragment } from "~/lib/datocms/graphql";
+import { Accordion, AccordionItem } from "~/components/Accordion";
+import { AccordionBlockFragment } from "./fragments";
+import { StructuredText } from "@datocms/astro";
+
+interface Props {
+  block: FragmentOf<typeof AccordionBlockFragment>;
+}
+
+const { block } = Astro.props;
+const accordionBlock = readFragment(AccordionBlockFragment, block);
+---
+
+<Accordion>
+  {
+    accordionBlock.items.map((item) => (
+      <AccordionItem title={item.title} open={item.isOpen}>
+        <StructuredText data={item.content} />
+      </AccordionItem>
+    ))
+  }
+</Accordion>
