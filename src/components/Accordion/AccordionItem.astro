@@ -1,0 +1,30 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { Typography } from "~/components/Typography";
+import { widont } from "~/lib/utils/string/widont";
+
+interface Props extends HTMLAttributes<"details"> {
+  class?: string;
+  title: string;
+}
+
+const { class: className, title, ...restProps } = Astro.props;
+---
+
+<details class:list={["group", "border-b border-border last:border-0", className]} {...restProps}>
+  <Typography
+    as="summary"
+    size="lg"
+    kind="heading"
+    class:list={[
+      "flex flex-row items-start justify-between",
+      "py-rxs pl-rsm pr-rxs",
+      "cursor-pointer select-none marker:ml-10 marker:[font-size:0px]",
+    ]}
+  >
+    <Typography as="h3">{widont(title)}</Typography>
+  </Typography>
+  <div class="max-w-5xl pb-rxs pl-rsm pr-rxl">
+    <slot />
+  </div>
+</details>
