@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "default": {
+      "logLevel": "NONE",
+      "migrations": {
+        "directory": "./src/lib/datocms/migrations",
+        "modelApiKey": "schema_migration",
+        "tsconfig": "./tsconfig.json"
+      }
+    }
+  }
+}

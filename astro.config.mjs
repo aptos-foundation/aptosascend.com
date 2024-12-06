@@ -1,19 +1,17 @@
-import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
 // @ts-check
-import { defineConfig } from "astro/config";
-
+import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
-
 import vercel from "@astrojs/vercel";
+import { defineConfig, envField } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://example.com",
-  integrations: [mdx(), sitemap(), tailwind()],
+  integrations: [sitemap(), tailwind()],
   output: "server",
   adapter: vercel({
     imagesConfig: {
+      domains: [],
       sizes: [320, 480, 640, 750, 828, 1080, 1200],
     },
     imageService: true,
@@ -25,4 +23,21 @@ export default defineConfig({
     //   exclude: ["/api/invalidate", "/posts/[...slug]"],
     // },
   }),
+  env: {
+    validateSecrets: true,
+    schema: {
+      DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      DATOCMS_DRAFT_CONTENT_CDA_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      DATOCMS_CMA_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+    },
+  },
 });

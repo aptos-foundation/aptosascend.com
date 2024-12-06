@@ -7,7 +7,15 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["node_modules", ".astro", "public", "dist", "*/**/*.astro"]
+    "ignore": [
+      "node_modules",
+      ".astro",
+      "public",
+      "dist",
+      "*/**/*.astro",
+      "src/lib/datocms/graphql-env.d.ts",
+      "src/lib/datocms/schema.graphql"
+    ]
   },
   "formatter": {
     "enabled": true,
