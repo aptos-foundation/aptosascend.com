@@ -1,9 +1,8 @@
 {
-  "extends": "astro/tsconfigs/strictest",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"],
+  "extends": "./tsconfig.base.json",
+  "exclude": ["node_modules", "public", "dist", ".vercel"],
   "compilerOptions": {
-    "plugins": [
+     "plugins": [
       {
         "name": "@astrojs/ts-plugin"
       },
@@ -13,11 +12,5 @@
         "tadaOutputLocation": "./src/lib/datocms/graphql-env.d.ts"
       }
     ],
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["src/*"],
-      "~~/*": ["*"]
-    },
-
-  }
+  },
 }
