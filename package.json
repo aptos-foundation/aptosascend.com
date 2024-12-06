@@ -30,6 +30,7 @@
     "@datocms/cma-client": "^3.3.15",
     "@tailwindcss/typography": "^0.5.15",
     "astro": "^5.0.2",
+    "astro-tweet": "^0.0.4",
     "datocms-structured-text-generic-html-renderer": "^4.0.2",
     "datocms-structured-text-to-plain-text": "^4.0.2",
     "datocms-structured-text-utils": "^4.0.1",
@@ -56,7 +57,11 @@
     "pre-push": "pnpm typecheck"
   },
   "nano-staged": {
-    "*.{js,cjs,mjs,jsx,ts,mts,tsx}": ["biome check --write"],
-    "*.{css,astro,html,md,mdx}": ["prettier --write"]
+    "*.{js,cjs,mjs,jsx,ts,mts,tsx}": [
+      "biome check --write"
+    ],
+    "*.{css,astro,html,md,mdx}": [
+      "prettier --write"
+    ]
   }
 }

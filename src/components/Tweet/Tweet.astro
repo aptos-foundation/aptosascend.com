@@ -1,0 +1,31 @@
+---
+import { default as AstroTweet } from "astro-tweet";
+import { parseTweetId } from "./utils";
+
+interface Props {
+  className?: string;
+  url: string;
+  theme?: "light" | "dark";
+  maxWidth?: string | number;
+}
+
+const { className, url, theme = "dark" } = Astro.props;
+const tweetId = parseTweetId(url);
+---
+
+{
+  !tweetId ? (
+    <>Cannot render tweet with url ${url}</>
+  ) : (
+    <div
+      class:list={[
+        "flex w-full flex-col items-center border border-border bg-elevation-1 p-r3xs",
+        className,
+      ]}
+    >
+      <div class="w-full *:!m-0 *:!min-w-full *:!border-0 *:!bg-transparent" data-theme={theme}>
+        <AstroTweet id={tweetId} />
+      </div>
+    </div>
+  )
+}
