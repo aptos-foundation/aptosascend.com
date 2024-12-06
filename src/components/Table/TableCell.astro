@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"td"> {}
+
+const { class: className, ...restProps } = Astro.props;
+---
+
+<td class:list={["p-2 text-left first:pl-0 last:pr-0", className]} {...restProps}>
+  <slot />
+</td>
