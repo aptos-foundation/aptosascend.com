@@ -1,0 +1,53 @@
+---
+import { ResponsiveImageFragment } from "~/components/_dato/ResponsiveImage/fragments";
+import ResponsiveImage from "~/components/_dato/ResponsiveImage/ResponsiveImage.astro";
+import { StructuredContent } from "~/components/_dato/StructuredContent";
+import { StructuredContentFragment } from "~/components/_dato/StructuredContent/fragments";
+import { Typography } from "~/components/Typography";
+import Layout from "~/layouts/Layout.astro";
+import { TagFragment } from "~/lib/datocms/commonFragments";
+import { executeQuery } from "~/lib/datocms/executeQuery";
+import { graphql } from "~/lib/datocms/graphql";
+
+const query = graphql(
+  `
+    query BlogPostQuery($slug: String!) {
+      post: blogPost(filter: { slug: { eq: $slug } }) {
+        id
+        slug
+        title
+        image {
+          title
+          responsiveImage(sizes: "(max-width: 700px) 100vw, 700px") {
+            ...ResponsiveImageFragment
+          }
+        }
+        content {
+          ...StructuredContentFragment
+        }
+        publishedAt: _firstPublishedAt
+        seo: _seoMetaTags {
+          ...TagFragment
+        }
+      }
+    }
+  `,
+  [TagFragment, ResponsiveImageFragment, StructuredContentFragment],
+);
+
+const { post } = await executeQuery(query, { variables: { slug: Astro.params.slug! } });
+
+if (!post) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not found",
+  });
+}
+---
+
+<Layout additionalSeo={post.seo}>
+  <Typography as="h1">{post.title}</Typography>
+  {post.image && <ResponsiveImage data={post.image.responsiveImage} />}
+  <time>{post.publishedAt}</time>
+  <StructuredContent content={post.content} />
+</Layout>
