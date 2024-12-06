@@ -24,6 +24,9 @@ importers:
       '@biomejs/biome':
         specifier: 1.9.4
         version: 1.9.4
+      typescript:
+        specifier: 5.7.2
+        version: 5.7.2
 
 packages:
 
