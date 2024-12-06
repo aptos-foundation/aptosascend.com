@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+import { hasProtocol } from "./utils";
+
+interface Props extends HTMLAttributes<"a"> {
+  activeClass?: string;
+  disabled?: boolean;
+}
+
+const { href, activeClass, disabled, target, rel, ...restProps } = Astro.props;
+const isActive = Astro.url.pathname === href;
+const isOutbound = hasProtocol(href);
+---
+
+<a
+  {...restProps}
+  href={href}
+  class:list={[isActive && activeClass, restProps.class]}
+  target={isOutbound && !target ? "_blank" : target}
+  rel={isOutbound || target ? `noopener noreferrer ${rel || ""}` : rel}
+  aria-disabled={disabled ? "true" : "false"}
+  tabindex={disabled ? -1 : undefined}
+>
+  <slot />
+</a>
