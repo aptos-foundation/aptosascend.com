@@ -15,6 +15,9 @@
     "format:biome": "biome format --write ./",
     "format:prettier": "prettier . --write",
     "datocms:generate-schema": "dotenv -c -- bash -c 'gql.tada generate schema https://graphql.datocms.com --header \"X-Exclude-Invalid: true\" --header \"Authorization: $DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN\"'",
+    "test": "pnpm run --parallel --filter='.' /^test:[^:]*$/",
+    "test:unit": "vitest -c config.vitest.mts run",
+    "test:unit:watch": "vitest -c config.vitest.mts",
     "postinstall": "pnpm exec simple-git-hooks"
   },
   "dependencies": {
@@ -44,7 +47,9 @@
     "dotenv-cli": "^7.4.4",
     "nano-staged": "0.8.0",
     "simple-git-hooks": "2.11.1",
-    "typescript": "5.7.2"
+    "typescript": "5.7.2",
+    "vite-tsconfig-paths": "^5.1.3",
+    "vitest": "^2.1.8"
   },
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/nano-staged",
