@@ -1,0 +1,29 @@
+---
+import { getUrl } from "./utils";
+import { Typography } from "~/components/Typography";
+
+interface Props {
+  className?: string;
+  provider: string;
+  videoUid: string;
+}
+
+const { className, provider, videoUid, ...restProps } = Astro.props;
+const url = getUrl(provider, videoUid);
+---
+
+{
+  !url ? (
+    <Typography kind="active" size="md">
+      Unsupported video provider
+    </Typography>
+  ) : (
+    <iframe
+      class:list={["aspect-video w-full border-none", className]}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      {...restProps}
+      src={url}
+    />
+  )
+}
