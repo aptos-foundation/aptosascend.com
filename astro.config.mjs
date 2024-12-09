@@ -34,7 +34,7 @@ export default defineConfig({
         context: "server",
         access: "secret",
       }),
-      DATOCMS_CMA_TOKEN: envField.string({
+      DATOCMS_API_TOKEN: envField.string({
         context: "server",
         access: "secret",
       }),

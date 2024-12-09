@@ -59,11 +59,7 @@
     "pre-push": "pnpm typecheck"
   },
   "nano-staged": {
-    "*.{js,cjs,mjs,jsx,ts,mts,tsx}": [
-      "biome check --write"
-    ],
-    "*.{css,astro,html,md,mdx}": [
-      "prettier --write"
-    ]
+    "*.{js,cjs,mjs,jsx,ts,mts,tsx}": ["biome check --write"],
+    "*.{css,astro,html,md,mdx}": ["prettier --write"]
   }
 }

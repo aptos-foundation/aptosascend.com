@@ -12,7 +12,7 @@ Copy the values of the following tokens into the specified environment variable:
 
 - `DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN`: CDA Only (Published)
 - `DATOCMS_DRAFT_CONTENT_CDA_TOKEN`: CDA Only (Draft)
-- `DATOCMS_CMA_TOKEN`: CMA Only (Admin)
+- `DATOCMS_API_TOKEN`: CMA Only (Admin)
 - `PREVIEW_SECRET_API_TOKEN`
 
 #### Run your project locally
