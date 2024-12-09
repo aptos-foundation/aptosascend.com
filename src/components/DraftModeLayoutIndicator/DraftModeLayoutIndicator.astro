@@ -1,0 +1,36 @@
+---
+import { Link } from "~/components/Link";
+---
+
+<div class:list={["flex justify-center items-center", "p-r2xs", "bg-active text-primary"]}>
+  Draft mode enabled
+  <Link
+    href="/api/draft-mode/disable"
+    class:list={["absolute", "right-r2xs"]}
+    aria-label="Disable draft mode"
+    data-disable-draft-mode
+  >
+    &times;
+  </Link>
+</div>
+
+<script>
+  const link = document.querySelector<HTMLAnchorElement>("[data-disable-draft-mode]");
+
+  if (!link) {
+    throw new Error("Disable draft mode link is not found");
+  }
+
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const url = new URL(link.href, window.location.origin);
+    url.searchParams.set("url", window.location.pathname);
+
+    fetch(url.href).then((res) => {
+      if (res.redirected) {
+        window.location.href = res.url;
+      }
+    });
+  });
+</script>

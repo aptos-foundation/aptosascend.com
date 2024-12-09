@@ -1,10 +1,12 @@
 ---
 import { ResponsiveImageFragment } from "~/components/_dato/ResponsiveImage/fragments";
 import ResponsiveImage from "~/components/_dato/ResponsiveImage/ResponsiveImage.astro";
+import { DraftModeQueryListener } from "~/components/DraftModeQueryListener";
 import { Typography } from "~/components/Typography";
 import Layout from "~/layouts/Layout.astro";
 import { executeQuery } from "~/lib/datocms/executeQuery";
 import { graphql } from "~/lib/datocms/graphql";
+import { isDraftModeEnabled } from "~/lib/draftMode";
 
 const query = graphql(
   `
@@ -27,7 +29,8 @@ const query = graphql(
   [ResponsiveImageFragment],
 );
 
-const { allPosts } = await executeQuery(query);
+const draftModeEnabled = isDraftModeEnabled(Astro.cookies);
+const { allPosts } = await executeQuery(query, { includeDrafts: draftModeEnabled });
 ---
 
 <Layout>
@@ -47,4 +50,5 @@ const { allPosts } = await executeQuery(query);
       }
     </ul>
   </section>
+  <DraftModeQueryListener query={query} />
 </Layout>

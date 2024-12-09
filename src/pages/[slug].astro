@@ -6,7 +6,10 @@ import { Typography } from "~/components/Typography";
 import Layout from "~/layouts/Layout.astro";
 import { TagFragment } from "~/lib/datocms/commonFragments";
 import { executeQuery } from "~/lib/datocms/executeQuery";
+import { DraftModeQueryListener } from "~/components/DraftModeQueryListener";
+
 import { graphql } from "~/lib/datocms/graphql";
+import { isDraftModeEnabled } from "~/lib/draftMode";
 
 const query = graphql(
   `
@@ -26,7 +29,11 @@ const query = graphql(
   [TagFragment, ResponsiveImageFragment, StructuredContentFragment],
 );
 
-const { page } = await executeQuery(query, { variables: { slug: Astro.params.slug! } });
+const draftModeEnabled = isDraftModeEnabled(Astro.cookies);
+const { page } = await executeQuery(query, {
+  variables: { slug: Astro.params.slug! },
+  includeDrafts: draftModeEnabled,
+});
 
 if (!page) {
   return new Response(null, {
@@ -39,4 +46,5 @@ if (!page) {
 <Layout additionalSeo={page.seo}>
   <Typography as="h1">{page.title}</Typography>
   <StructuredContent content={page.content} />
+  <DraftModeQueryListener query={query} />
 </Layout>

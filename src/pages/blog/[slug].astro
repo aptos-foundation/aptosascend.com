@@ -3,11 +3,13 @@ import { ResponsiveImageFragment } from "~/components/_dato/ResponsiveImage/frag
 import ResponsiveImage from "~/components/_dato/ResponsiveImage/ResponsiveImage.astro";
 import { StructuredContent } from "~/components/_dato/StructuredContent";
 import { StructuredContentFragment } from "~/components/_dato/StructuredContent/fragments";
+import { DraftModeQueryListener } from "~/components/DraftModeQueryListener";
 import { Typography } from "~/components/Typography";
 import Layout from "~/layouts/Layout.astro";
 import { TagFragment } from "~/lib/datocms/commonFragments";
 import { executeQuery } from "~/lib/datocms/executeQuery";
 import { graphql } from "~/lib/datocms/graphql";
+import { isDraftModeEnabled } from "~/lib/draftMode";
 
 const query = graphql(
   `
@@ -34,8 +36,12 @@ const query = graphql(
   `,
   [TagFragment, ResponsiveImageFragment, StructuredContentFragment],
 );
-
-const { post } = await executeQuery(query, { variables: { slug: Astro.params.slug! } });
+const variables = { slug: Astro.params.slug! };
+const draftModeEnabled = isDraftModeEnabled(Astro.cookies);
+const { post } = await executeQuery(query, {
+  variables,
+  includeDrafts: draftModeEnabled,
+});
 
 if (!post) {
   return new Response(null, {
@@ -50,4 +56,5 @@ if (!post) {
   {post.image && <ResponsiveImage data={post.image.responsiveImage} />}
   <time>{post.publishedAt}</time>
   <StructuredContent content={post.content} />
+  <DraftModeQueryListener query={query} variables={variables} />
 </Layout>

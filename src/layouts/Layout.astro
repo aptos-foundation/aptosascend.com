@@ -4,9 +4,12 @@ import "~/styles/global.css";
 import { Seo, type TitleMetaLinkTag } from "@datocms/astro";
 import { TagFragment } from "~/lib/datocms/commonFragments";
 import { executeQuery } from "~/lib/datocms/executeQuery";
+
 import { graphql } from "~/lib/datocms/graphql";
 import { SITE_TITLE } from "~/constants";
 import { Link } from "~/components/Link";
+import { isDraftModeEnabled } from "~/lib/draftMode";
+import { DraftModeLayoutIndicator } from "~/components/DraftModeLayoutIndicator";
 
 type Props = {
   additionalSeo?: TitleMetaLinkTag[];
@@ -32,7 +35,8 @@ const query = graphql(
   [TagFragment],
 );
 
-const result = await executeQuery(query);
+const draftModeEnabled = isDraftModeEnabled(Astro.cookies);
+const result = await executeQuery(query, { includeDrafts: draftModeEnabled });
 const today = new Date();
 ---
 
@@ -61,6 +65,7 @@ const today = new Date();
       "selection:bg-active/90 selection:fill-primary-inverted selection:text-primary-inverted",
     ]}
   >
+    {draftModeEnabled && <DraftModeLayoutIndicator />}
     <header class:list={["p-rsm", "bg-elevation-1"]}>
       <nav class:list={["flex items-center gap-4"]}>
         <h2><a href="/">{SITE_TITLE}</a></h2>

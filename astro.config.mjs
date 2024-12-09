@@ -38,6 +38,18 @@ export default defineConfig({
         context: "server",
         access: "secret",
       }),
+      PREVIEW_SECRET_API_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      DATOCMS_SIGNED_COOKIE_JWT_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      DATOCMS_DRAFT_MODE_COOKIE_NAME: envField.string({
+        context: "client",
+        access: "public",
+      }),
     },
   },
 });
