@@ -20,6 +20,11 @@
     "test:unit:watch": "vitest -c config.vitest.mts",
     "postinstall": "pnpm exec simple-git-hooks"
   },
+  "engines": {
+    "node": "20.x",
+    "pnpm": "^9.15.0"
+  },
+  "packageManager": "pnpm@9.15.0",
   "dependencies": {
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
