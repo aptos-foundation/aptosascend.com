@@ -51,7 +51,7 @@ if (!post) {
 }
 ---
 
-<Layout additionalSeo={post.seo}>
+<Layout pageSeo={post.seo}>
   <Typography as="h1">{post.title}</Typography>
   {post.image && <ResponsiveImage data={post.image.responsiveImage} />}
   <time>{post.publishedAt}</time>

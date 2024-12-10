@@ -2,11 +2,11 @@
 import { ResponsiveImageFragment } from "~/components/_dato/ResponsiveImage/fragments";
 import { StructuredContent } from "~/components/_dato/StructuredContent";
 import { StructuredContentFragment } from "~/components/_dato/StructuredContent/fragments";
+import { DraftModeQueryListener } from "~/components/DraftModeQueryListener";
 import { Typography } from "~/components/Typography";
 import Layout from "~/layouts/Layout.astro";
 import { TagFragment } from "~/lib/datocms/commonFragments";
 import { executeQuery } from "~/lib/datocms/executeQuery";
-import { DraftModeQueryListener } from "~/components/DraftModeQueryListener";
 
 import { graphql } from "~/lib/datocms/graphql";
 import { isDraftModeEnabled } from "~/lib/draftMode";
@@ -43,7 +43,7 @@ if (!page) {
 }
 ---
 
-<Layout additionalSeo={page.seo}>
+<Layout pageSeo={page.seo}>
   <Typography as="h1">{page.title}</Typography>
   <StructuredContent content={page.content} />
   <DraftModeQueryListener query={query} />

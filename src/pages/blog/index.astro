@@ -7,10 +7,17 @@ import Layout from "~/layouts/Layout.astro";
 import { executeQuery } from "~/lib/datocms/executeQuery";
 import { graphql } from "~/lib/datocms/graphql";
 import { isDraftModeEnabled } from "~/lib/draftMode";
+import { TagFragment } from "~/lib/datocms/commonFragments";
+import { ensureNonNullable } from "~/lib/utils/assertions/ensureNonNullable";
 
 const query = graphql(
   `
     query AllBlogPostsQuery {
+      page: blogIndexPage {
+        seo: _seoMetaTags {
+          ...TagFragment
+        }
+      }
       allPosts: allBlogPosts(orderBy: _createdAt_DESC) {
         id
         slug
@@ -26,20 +33,20 @@ const query = graphql(
       }
     }
   `,
-  [ResponsiveImageFragment],
+  [TagFragment, ResponsiveImageFragment],
 );
 
 const draftModeEnabled = isDraftModeEnabled(Astro.cookies);
-const { allPosts } = await executeQuery(query, { includeDrafts: draftModeEnabled });
+const { page, allPosts } = await executeQuery(query, { includeDrafts: draftModeEnabled });
 ---
 
-<Layout>
+<Layout pageSeo={ensureNonNullable(page).seo}>
   <section>
     <ul>
       {
         allPosts.map((post) => (
           <li>
-            <a href={`/blog/${post.slug}/`}>
+            <a href={`/blog/${post.slug}`}>
               {post.image && <ResponsiveImage data={post.image.responsiveImage} />}
               <h4>{post.title}</h4>
               <Typography as="p">{post.excerpt}</Typography>

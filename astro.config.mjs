@@ -26,6 +26,10 @@ export default defineConfig({
   env: {
     validateSecrets: true,
     schema: {
+      PUBLIC_HOSTNAME: envField.string({
+        context: "client",
+        access: "public",
+      }),
       DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN: envField.string({
         context: "server",
         access: "secret",

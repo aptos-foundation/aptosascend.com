@@ -54,6 +54,30 @@ type AccordionItemBlockRecord implements RecordInterface {
   title: String!
 }
 
+"""Record of type Blog Index Page (blog_index_page)"""
+type BlogIndexPageRecord implements RecordInterface {
+  _createdAt: DateTime!
+
+  """Editing URL"""
+  _editingUrl: String
+  _firstPublishedAt: DateTime
+  _isValid: BooleanType!
+  _modelApiKey: String!
+  _publicationScheduledAt: DateTime
+  _publishedAt: DateTime
+
+  """Generates SEO and Social card meta tags to be used in your frontend"""
+  _seoMetaTags(
+    """The locale to use to fetch the field's content"""
+    locale: SiteLocale
+  ): [Tag!]!
+  _status: ItemStatus!
+  _unpublishingScheduledAt: DateTime
+  _updatedAt: DateTime!
+  id: ItemId!
+  seoSettingsSocial: SeoField
+}
+
 input BlogPostModelFilter {
   _createdAt: CreatedAtFilter
   id: ItemIdFilter
@@ -2451,8 +2475,8 @@ input PageModelFilter {
   _updatedAt: UpdatedAtFilter
   _isValid: BooleanFilter
   title: StringFilter
-  slug: SlugFilter
   seoSettingsSocial: SeoFilter
+  slug: SlugFilter
   OR: [PageModelFilter]
   AND: [PageModelFilter]
 }
@@ -2635,6 +2659,17 @@ type Query {
     filter: UploadFilter
     orderBy: [UploadOrderBy] = [_createdAt_DESC]
   ): [FileField!]!
+
+  """Returns the single instance record"""
+  blogIndexPage(
+    """The locale to use to fetch the field's content"""
+    locale: SiteLocale
+
+    """
+    If you want to fallback to a default translation when a translation has not been found
+    """
+    fallbackLocales: [SiteLocale!]
+  ): BlogIndexPageRecord
 
   """Returns a specific record"""
   blogPost(

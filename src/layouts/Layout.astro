@@ -1,42 +1,27 @@
 ---
 import "~/styles/global.css";
 
-import { Seo, type TitleMetaLinkTag } from "@datocms/astro";
-import { TagFragment } from "~/lib/datocms/commonFragments";
+import { Seo } from "@datocms/astro";
 import { executeQuery } from "~/lib/datocms/executeQuery";
 
-import { graphql } from "~/lib/datocms/graphql";
-import { SITE_TITLE } from "~/constants";
-import { Link } from "~/components/Link";
-import { isDraftModeEnabled } from "~/lib/draftMode";
 import { DraftModeLayoutIndicator } from "~/components/DraftModeLayoutIndicator";
+import { Link } from "~/components/Link";
+import { siteSettingsQuery } from "~/lib/datocms/seo/graphql";
+import { resolveAllMetaTags } from "~/lib/datocms/seo/resolveAllMetaTags";
+import { type SeoMetaTag } from "~/lib/datocms/seo/types";
+import { isDraftModeEnabled } from "~/lib/draftMode";
+import type { AnyOverride } from "~/lib/datocms/seo/types";
 
 type Props = {
-  additionalSeo?: TitleMetaLinkTag[];
+  pageSeo: SeoMetaTag[];
+  seoOverrides?: AnyOverride[];
 };
 
-const { additionalSeo = [] } = Astro.props;
-
-const query = graphql(
-  `
-    query RootQuery {
-      _site {
-        globalSeo {
-          fallbackSeo {
-            title
-          }
-        }
-        faviconMetaTags {
-          ...TagFragment
-        }
-      }
-    }
-  `,
-  [TagFragment],
-);
+const { pageSeo: pageSeoTags, seoOverrides = [] } = Astro.props;
 
 const draftModeEnabled = isDraftModeEnabled(Astro.cookies);
-const result = await executeQuery(query, { includeDrafts: draftModeEnabled });
+const siteSettings = await executeQuery(siteSettingsQuery, { includeDrafts: draftModeEnabled });
+const seoTags = resolveAllMetaTags(siteSettings, pageSeoTags, seoOverrides);
 const today = new Date();
 ---
 
@@ -44,8 +29,6 @@ const today = new Date();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{result._site.globalSeo?.fallbackSeo?.title}</title>
-
     <!-- Font preloads -->
     <link
       rel="preload"
@@ -55,7 +38,7 @@ const today = new Date();
       crossorigin
     />
     <link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
-    <Seo data={[...result._site.faviconMetaTags, ...additionalSeo]} />
+    <Seo data={seoTags} />
   </head>
   <body
     class:list={[
@@ -68,7 +51,7 @@ const today = new Date();
     {draftModeEnabled && <DraftModeLayoutIndicator />}
     <header class:list={["p-rsm", "bg-elevation-1"]}>
       <nav class:list={["flex items-center gap-4"]}>
-        <h2><a href="/">{SITE_TITLE}</a></h2>
+        <h2><a href="/">{siteSettings._site.globalSeo?.siteName}</a></h2>
         <div class:list={["flex items-center gap-4", "ml-auto"]}>
           <Link href="/">Home</Link>
           <Link href="/blog">Blog</Link>

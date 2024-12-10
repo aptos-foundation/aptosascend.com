@@ -2,15 +2,16 @@
   "extends": "./tsconfig.base.json",
   "exclude": ["node_modules", "public", "dist", ".vercel"],
   "compilerOptions": {
-     "plugins": [
+    "plugins": [
       {
         "name": "@astrojs/ts-plugin"
       },
       {
         "name": "gql.tada/ts-plugin",
         "schema": "./src/lib/datocms/schema.graphql",
-        "tadaOutputLocation": "./src/lib/datocms/graphql-env.d.ts"
+        "tadaOutputLocation": "./src/lib/datocms/graphql-env.d.ts",
+        "trackFieldUsage": true
       }
-    ],
-  },
+    ]
+  }
 }
