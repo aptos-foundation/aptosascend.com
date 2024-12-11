@@ -63,6 +63,10 @@
 }
 
 /* Safari has a bug which paints a grey border on images with loading="lazy" until the image is fully loaded.  */
+/*
+  biome-ignore lint/suspicious/noShorthandPropertyOverrides: false positive
+  biome-ignore lint/a11y/useGenericFontNames: valid hack
+*/
 @supports (font: -apple-system-body) and (-webkit-appearance: none) {
   img[loading="lazy"] {
     clip-path: inset(0.6px);

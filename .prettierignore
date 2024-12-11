@@ -1,6 +1,9 @@
 # Ignore any non .astro files
+pnpm-lock.yaml
+src/lib/datocms/schema.graphql
 **/node_modules
 .astro/**
+**/.tmp
 # some why {ts,tsx,...} pattern doesn't work
 **/*.ts
 **/*.tsx
@@ -10,3 +13,4 @@
 **/*.mts
 **/*.jsx
 **/*.json
+
